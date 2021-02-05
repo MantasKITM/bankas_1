@@ -184,9 +184,10 @@ public class BankasDAO {
         Account sender_Account = new Account();
         try {
             conn = DriverManager.getConnection(URL, user, passwd);
-            query = "SELECT * FROM user_accounts WHERE account_id = " + sender_id;
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery(query);
+            query = "SELECT * FROM user_accounts WHERE account_id = ?";
+            pstmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setInt(1, sender_id);
+            ResultSet rs = pstmt.executeQuery();
             rs.beforeFirst();
             rs.next();
             sender_Account.setID(rs.getInt(1));
@@ -223,9 +224,10 @@ public class BankasDAO {
         Account receiver_Account = new Account();
         try {
             conn = DriverManager.getConnection(URL, user, passwd);
-            query = "SELECT * FROM user_accounts WHERE account_id = " + receiver_id;
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery(query);
+            query = "SELECT * FROM user_accounts WHERE account_id = ?";
+            pstmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setInt(1, receiver_id);
+            ResultSet rs = pstmt.executeQuery();
             rs.beforeFirst();
             rs.next();
             receiver_Account.setID(rs.getInt(1));
@@ -258,3 +260,4 @@ public class BankasDAO {
         return receiver_Account;
     }
 }
+
